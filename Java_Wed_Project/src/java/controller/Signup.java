@@ -5,11 +5,9 @@
  */
 package controller;
 
-import Entity.Customer;
-import Entity.Product;
+import Entity.Admin;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +20,8 @@ import model.Dao;
  *
  * @author DELL
  */
-@WebServlet(name = "CustomerManager", urlPatterns = {"/CustomerManager"})
-public class CustomerManager extends HttpServlet {
+@WebServlet(name = "Signup", urlPatterns = {"/signup"})
+public class Signup extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,11 +35,22 @@ public class CustomerManager extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        DBConnection dbconn = new DBConnection();
+       DBConnection dbconn = new DBConnection();
         Dao dao = new Dao(dbconn);
-        List<Customer> listCu = dao.getAllCus();
-        request.setAttribute("listCu",listCu);
-        request.getRequestDispatcher("ManagerCustomer.jsp").forward(request, response);
+        String name = request.getParameter("user");
+        String pass = request.getParameter("pass");
+        String repass = request.getParameter("repass");
+        if(!pass.equals(repass)){
+            response.sendRedirect("Login.jsp");
+        }else{
+            Admin a = dao.checkAccEx(name);
+            if(a==null){
+                dao.Signup(name, pass);
+                response.sendRedirect("admin");
+            }else{
+                response.sendRedirect("adminlogin.jsp");
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author HP
+ * @author DELL
  */
 public class DBConnection {
     //Connection quan ly ket noi den CSDL
@@ -43,7 +43,7 @@ public class DBConnection {
     
 
     public DBConnection() {
-        this("jdbc:sqlserver://localhost:1433;databaseName=SE1428",
+        this("jdbc:sqlserver://localhost:1433;databaseName=HE151211",
                 "sa","123456");
     }
     public ResultSet getData(String sql){

@@ -5,11 +5,8 @@
  */
 package controller;
 
-import Entity.Customer;
-import Entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +19,8 @@ import model.Dao;
  *
  * @author DELL
  */
-@WebServlet(name = "CustomerManager", urlPatterns = {"/CustomerManager"})
-public class CustomerManager extends HttpServlet {
+@WebServlet(name = "editPro", urlPatterns = {"/edit"})
+public class editPro extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,11 +34,17 @@ public class CustomerManager extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        DBConnection dbconn = new DBConnection();
+        String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        String quantity = request.getParameter("quantity");
+        String price = request.getParameter("price");
+        String image = request.getParameter("image");
+        String description = request.getParameter("descriptions");
+        int cateId = Integer.parseInt(request.getParameter("category"));
+         DBConnection dbconn = new DBConnection();
         Dao dao = new Dao(dbconn);
-        List<Customer> listCu = dao.getAllCus();
-        request.setAttribute("listCu",listCu);
-        request.getRequestDispatcher("ManagerCustomer.jsp").forward(request, response);
+        dao.editProduct(id, name, quantity, price, image, description, cateId);
+        response.sendRedirect("ProductManager");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

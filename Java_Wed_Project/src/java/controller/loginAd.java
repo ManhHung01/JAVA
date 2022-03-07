@@ -5,16 +5,16 @@
  */
 package controller;
 
+import Entity.Admin;
 import Entity.Customer;
-import Entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.DBConnection;
 import model.Dao;
 
@@ -22,8 +22,8 @@ import model.Dao;
  *
  * @author DELL
  */
-@WebServlet(name = "CustomerManager", urlPatterns = {"/CustomerManager"})
-public class CustomerManager extends HttpServlet {
+@WebServlet(name = "loginAd", urlPatterns = {"/loginAd"})
+public class loginAd extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,9 +39,17 @@ public class CustomerManager extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         DBConnection dbconn = new DBConnection();
         Dao dao = new Dao(dbconn);
-        List<Customer> listCu = dao.getAllCus();
-        request.setAttribute("listCu",listCu);
-        request.getRequestDispatcher("ManagerCustomer.jsp").forward(request, response);
+        String name = request.getParameter("user1");
+        String pass = request.getParameter("pass1");
+        Admin ad =  dao.checkLogin(name,pass);
+        if(ad!=null){
+            HttpSession session = request.getSession();
+            session.setAttribute("account1", ad);
+            response.sendRedirect("admin");
+        }else{
+            request.setAttribute("thongbao", "Dang nhap that bai");
+            request.getRequestDispatcher("adminlogin.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -5,43 +5,60 @@
  */
 package controller;
 
-import Entity.Customer;
 import Entity.Product;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.DBConnection;
 import model.Dao;
 
 /**
  *
- * @author DELL
+ * @author trinh
  */
-@WebServlet(name = "CustomerManager", urlPatterns = {"/CustomerManager"})
-public class CustomerManager extends HttpServlet {
+@WebServlet(name = "CartControl", urlPatterns = {"/cart"})
+public class CartControl extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        DBConnection dbconn = new DBConnection();
+       DBConnection dbconn = new DBConnection();
         Dao dao = new Dao(dbconn);
-        List<Customer> listCu = dao.getAllCus();
-        request.setAttribute("listCu",listCu);
-        request.getRequestDispatcher("ManagerCustomer.jsp").forward(request, response);
+        
+        HttpSession session = request.getSession();
+   
+                if (session.getAttribute("listCart") == null) {
+                    String pid = request.getParameter("pid");
+                    List<Product> list = new ArrayList<>();
+                    Product p = dao.add(pid);
+                    list.add(p);
+                    session.setAttribute("listCart", list);
+                } else {
+                       String pid = request.getParameter("pid");
+                    List<Product> list = (List<Product>) session.getAttribute("listCart");
+                    int index = dao.checkId(pid, list);
+                    
+
+                    if (index == -1) {
+                        Product p = dao.add(pid);
+                        list.add(p);
+                    } else {
+                        int quantity = list.get(index).getQuantity() + 1;
+                        list.get(index).setQuantity(quantity);
+                    }
+                    session.setAttribute("listCart", list);
+                }
+                
+                RequestDispatcher dispth
+                        = request.getRequestDispatcher("home");
+                dispth.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

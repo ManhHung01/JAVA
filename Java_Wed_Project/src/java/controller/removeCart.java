@@ -5,16 +5,17 @@
  */
 package controller;
 
-import Entity.Customer;
 import Entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.DBConnection;
 import model.Dao;
 
@@ -22,8 +23,8 @@ import model.Dao;
  *
  * @author DELL
  */
-@WebServlet(name = "CustomerManager", urlPatterns = {"/CustomerManager"})
-public class CustomerManager extends HttpServlet {
+@WebServlet(name = "removeCart", urlPatterns = {"/removeCart"})
+public class removeCart extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,9 +40,14 @@ public class CustomerManager extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         DBConnection dbconn = new DBConnection();
         Dao dao = new Dao(dbconn);
-        List<Customer> listCu = dao.getAllCus();
-        request.setAttribute("listCu",listCu);
-        request.getRequestDispatcher("ManagerCustomer.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+                List<Product> list = (List<Product>) session.getAttribute("listCart");
+                String pid = request.getParameter("pid");
+                int index = dao.checkId(pid, list);
+                list.remove(index);
+                session.setAttribute("listCart", list);
+                RequestDispatcher dispth= request.getRequestDispatcher("Cart.jsp"); 
+                dispth.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

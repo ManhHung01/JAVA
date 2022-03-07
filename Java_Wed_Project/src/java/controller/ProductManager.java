@@ -5,21 +5,18 @@
  */
 package controller;
 
+import Entity.Category;
 import Entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.DBConnection;
-import model.ProductDao;
+import model.Dao;
 
 /**
  *
@@ -41,82 +38,13 @@ public class ProductManager extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         DBConnection dbconn = new DBConnection();
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            // DAOCategory daoCate = new DAOCategory(dbconn); 
-            ProductDao dao = new ProductDao(dbconn);
-            String action = request.getParameter("action");
-            // get action from view
-            if (action == null) {
-                action = "listProduct";
-            }
-
-            if (action.equals("listProduct")) {
-                // model
-                String sql = "Select * from Product";
-                ResultSet rs0 = dbconn.getData(sql);
-                // send data to view, select view
-                request.setAttribute("rs", rs0);
-                request.setAttribute("title", "List of Product");
-                //....
-                //select jsp
-                RequestDispatcher dispth
-                        = request.getRequestDispatcher("/ProductView.jsp");
-                // run
-                dispth.forward(request, response);
-
-            }
-            if (action.equals("insert")) {
-                String id = request.getParameter("proId");
-                String name = request.getParameter("proName");
-                String quantity = request.getParameter("quantity");
-                String price = request.getParameter("price");
-                String image = request.getParameter("image");
-                String description = request.getParameter("descriptions");
-                String cateId = request.getParameter("cateId");
-                dao.add(id, name, Integer.parseInt(quantity), Double.parseDouble(price), image, description, cateId);
-                response.sendRedirect("ProductManager?action=listProduct");
-            }
-
-            if (action.equals("predelete")) {
-                String id = request.getParameter("pid");
-                dao.delete(id);
-                response.sendRedirect("ProductManager?action=listProduct");
-            }
-            if (action.equals("preUpdate")) {
-                String pid = request.getParameter("pid").trim();
-                String sql = "select * from Product where pid='" + pid + "'";
-                ResultSet rs = dbconn.getData(sql);
-                request.setAttribute("rs1", rs);
-                RequestDispatcher dispth = request.getRequestDispatcher("/update.jsp");
-                dispth.forward(request, response);
-
-            }
-            if (action.equals("updatepro")) {
-                String id = request.getParameter("proId");
-                String name = request.getParameter("proName");
-                int quantity = Integer.parseInt(request.getParameter("quantity").trim());
-                double price = Double.parseDouble(request.getParameter("price").trim());
-                String image = request.getParameter("image");
-                String description = request.getParameter("descriptions");
-
-                String cateId = request.getParameter("cateId");
-
-                Product pro = new Product(id, name, quantity, price, image, description, cateId);
-                dao.update(pro);
-                response.sendRedirect("ProductManager?action=listProduct");
-            }
-
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet ProductManager</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet ProductManager at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-        }
+        Dao dao = new Dao(dbconn);
+        List<Category> listC = dao.getAllCategory();
+        List<Product> listP = dao.getAllProduct();
+        
+        request.setAttribute("listC", listC);
+        request.setAttribute("listP", listP);
+        request.getRequestDispatcher("ManagerProduct.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

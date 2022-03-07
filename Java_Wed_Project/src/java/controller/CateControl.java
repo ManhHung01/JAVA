@@ -5,7 +5,7 @@
  */
 package controller;
 
-import Entity.Customer;
+import Entity.Category;
 import Entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,8 +22,8 @@ import model.Dao;
  *
  * @author DELL
  */
-@WebServlet(name = "CustomerManager", urlPatterns = {"/CustomerManager"})
-public class CustomerManager extends HttpServlet {
+@WebServlet(name = "CateControl", urlPatterns = {"/CateControl"})
+public class CateControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,9 +39,13 @@ public class CustomerManager extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         DBConnection dbconn = new DBConnection();
         Dao dao = new Dao(dbconn);
-        List<Customer> listCu = dao.getAllCus();
-        request.setAttribute("listCu",listCu);
-        request.getRequestDispatcher("ManagerCustomer.jsp").forward(request, response);
+        String cateId = request.getParameter("cid");
+        List<Product> list = dao.getProductByCate(cateId);
+        List<Category> listC = dao.getAllCategory();
+        
+        request.setAttribute("listP", list);
+        request.setAttribute("listC", listC);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

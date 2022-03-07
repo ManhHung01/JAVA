@@ -5,7 +5,7 @@
  */
 package controller;
 
-import Entity.Customer;
+import Entity.Category;
 import Entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,8 +22,8 @@ import model.Dao;
  *
  * @author DELL
  */
-@WebServlet(name = "CustomerManager", urlPatterns = {"/CustomerManager"})
-public class CustomerManager extends HttpServlet {
+@WebServlet(name = "LoadPro", urlPatterns = {"/loadPro"})
+public class LoadPro extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,11 +37,14 @@ public class CustomerManager extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        DBConnection dbconn = new DBConnection();
+        String id = request.getParameter("pid");
+         DBConnection dbconn = new DBConnection();
         Dao dao = new Dao(dbconn);
-        List<Customer> listCu = dao.getAllCus();
-        request.setAttribute("listCu",listCu);
-        request.getRequestDispatcher("ManagerCustomer.jsp").forward(request, response);
+        Product p = dao.getProductByID(id);
+        List<Category> listC = dao.getAllCategory();
+        request.setAttribute("load", p);
+        request.setAttribute("listC", listC);
+        request.getRequestDispatcher("EditPro.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

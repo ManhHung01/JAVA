@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.DBConnection;
 import model.Dao;
 
@@ -22,8 +23,8 @@ import model.Dao;
  *
  * @author DELL
  */
-@WebServlet(name = "CustomerManager", urlPatterns = {"/CustomerManager"})
-public class CustomerManager extends HttpServlet {
+@WebServlet(name = "checkout", urlPatterns = {"/checkout"})
+public class checkout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,9 +40,22 @@ public class CustomerManager extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         DBConnection dbconn = new DBConnection();
         Dao dao = new Dao(dbconn);
-        List<Customer> listCu = dao.getAllCus();
-        request.setAttribute("listCu",listCu);
-        request.getRequestDispatcher("ManagerCustomer.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        Customer a = (Customer) session.getAttribute("account");
+        List<Product> listP = dao.getAllProduct();
+        double total = 0;
+        for (Product list : listP) {
+            double a1 = list.getQuantity()*list.getPrice();
+            total += a1;
+        }
+        String dateCreate = request.getParameter("date");
+//        double total = Double.parseDouble(request.getParameter("total"));
+        String recName = request.getParameter("name");
+        String recAddress = request.getParameter("addr");
+        String recPhone = request.getParameter("phone");
+        request.setAttribute("total", total);
+        dao.insertBill(dateCreate, total, recName, recAddress, recPhone, a.getCid());
+        response.sendRedirect("home");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

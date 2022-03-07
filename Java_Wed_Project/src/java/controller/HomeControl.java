@@ -5,10 +5,10 @@
  */
 package controller;
 
-import Entity.Customer;
+
+import Entity.Category;
 import Entity.Product;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,10 +20,10 @@ import model.Dao;
 
 /**
  *
- * @author DELL
+ * @author alias
  */
-@WebServlet(name = "CustomerManager", urlPatterns = {"/CustomerManager"})
-public class CustomerManager extends HttpServlet {
+@WebServlet(name = "HomeControl", urlPatterns = {"/home"})
+public class HomeControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,9 +39,12 @@ public class CustomerManager extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         DBConnection dbconn = new DBConnection();
         Dao dao = new Dao(dbconn);
-        List<Customer> listCu = dao.getAllCus();
-        request.setAttribute("listCu",listCu);
-        request.getRequestDispatcher("ManagerCustomer.jsp").forward(request, response);
+        List<Category> listC = dao.getAllCategory();
+        List<Product> listP = dao.getAllProduct();
+        
+        request.setAttribute("listC", listC);
+        request.setAttribute("listP", listP);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
