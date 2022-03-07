@@ -3,27 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/Signup.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/Logout.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/context/DBContext.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/AddProduct.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/conf/MANIFEST.MF</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/loginAd.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/ProductManager.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/model/Dao.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/login.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/checkout.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/HomeControl.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/web/WEB-INF/beans.xml</file>
+            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/entity/Customer.java</file>
             <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/CartControl.java</file>
             <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/CateControl.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/admin.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/DeleteManager.java</file>
+            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/loginAd.java</file>
             <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/removeCart.java</file>
             <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/updateCart.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/editPro.java</file>
             <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/CustomerManager.java</file>
-            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/AddCus.java</file>
+            <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/HomeControl.java</file>
+            <file>file:/E:/Github/JAVA/Java_Wed_Project/web/WEB-INF/beans.xml</file>
             <file>file:/E:/Github/JAVA/Java_Wed_Project/src/java/controller/LoadPro.java</file>
         </group>
     </open-files>

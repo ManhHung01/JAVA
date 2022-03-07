@@ -40,8 +40,8 @@ public class CateControl extends HttpServlet {
         DBConnection dbconn = new DBConnection();
         Dao dao = new Dao(dbconn);
         String cateId = request.getParameter("cid");
-        List<Product> list = dao.getProductByCate(cateId);
-        List<Category> listC = dao.getAllCategory();
+        List<Entity.Product> list = dao.getProductByCate(cateId);
+        List<Entity.Category> listC = dao.getAllCategory();
         
         request.setAttribute("listP", list);
         request.setAttribute("listC", listC);
