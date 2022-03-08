@@ -99,6 +99,6 @@ public class BillDetail {
     public void setPrice(double price) {
         this.price = price;
     }
-    
+    //
     
 }
