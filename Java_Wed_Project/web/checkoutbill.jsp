@@ -71,7 +71,7 @@
                         <h5>About</h5>
                         <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
                         <p class="mb-0">
-                            Chúng tôi mang đến cho bạn những sản phẩm chất lượng và dịch vụ tốt nhất hiện nay .
+                            Chúng tôi mang đến cho bạn những sản phẩm chất lượng và dịch vụ tốt nhất hiện nay 
                         </p>
                     </div>
 
